@@ -8,7 +8,7 @@ This application utilizes the powerful Florence-2 vision-language model from Mic
 
 ## How to Use
 
-You can try the live demo on Hugging Face Spaces: [https://huggingface.co/spaces/prithivMLmods/Image-Captioning](https://huggingface.co/spaces/prithivMLmods/Image-Captioning)
+You can try the live demo on Hugging Face Spaces: [https://huggingface.co/spaces/prithivMLmods/Image-Captioning](https://huggingface.co/spaces/prithivMLmods/Florence-2-Image-Caption)
 
 Alternatively, you can run the Gradio application locally using the provided Python script.
 
