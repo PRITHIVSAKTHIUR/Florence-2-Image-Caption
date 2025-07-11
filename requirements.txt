@@ -2,5 +2,9 @@ transformers
 torch
 timm
 pillow
-gradio
+accelerate
+huggingface_hub
 hf_xet
+torchvision
+torch
+gradio
