@@ -6,5 +6,4 @@ accelerate
 huggingface_hub
 hf_xet
 torchvision
-torch
 gradio
