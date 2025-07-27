@@ -83,16 +83,16 @@ def describe_image(uploaded_image, model_choice):
     return image_description
 
 # Description for the interface
-description = "Select the model to use for generating the image description. 'Base' is smaller and faster, while 'Large' is more accurate but slower."
+description = "> Select the model to use for generating the image description. 'Base' is smaller and faster, while 'Large' is more accurate but slower."
 if device == "cpu":
     description += " Note: Running on CPU, which may be slow for large models."
 
 # Define examples
 examples = [
+    ["images/2.png", "Florence-2-large"],
     ["images/1.png", "Florence-2-base"],
-    ["images/1.png", "Florence-2-large"],
-    ["images/2.png", "Florence-2-base"],
-    ["images/2.png", "Florence-2-large"]
+    ["images/3.png", "Florence-2-large"],
+    ["images/4.png", "Florence-2-large"]
 ]
 
 css = """
@@ -117,7 +117,7 @@ with gr.Blocks(theme="bethecloud/storj_theme", css=css) as demo:
             gr.Examples(examples=examples, inputs=[image_input])
         # Right column: Model choice, output, and examples
         with gr.Column():
-            model_choice = gr.Radio(["Florence-2-base", "Florence-2-large"], label="Model Choice", value="Florence-2-base")
+            model_choice = gr.Radio(["Florence-2-base", "Florence-2-large"], label="Model Choice", value="Florence-2-large")
             with gr.Row():
                 output = gr.Textbox(label="Generated Caption", lines=4, show_copy_button=True)
     # Connect the button to the function
