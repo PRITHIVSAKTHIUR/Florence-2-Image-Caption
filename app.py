@@ -46,12 +46,12 @@ def describe_image(uploaded_image, model_choice):
     if uploaded_image is None:
         return "Please upload an image."
 
-    if model_choice == "Base":
+    if model_choice == "Florence-2-base":
         if vision_language_model_base is None:
             return "Base model failed to load."
         model = vision_language_model_base
         processor = vision_language_processor_base
-    elif model_choice == "Large":
+    elif model_choice == "Florence-2-large":
         if vision_language_model_large is None:
             return "Large model failed to load."
         model = vision_language_model_large
@@ -87,18 +87,41 @@ description = "Select the model to use for generating the image description. 'Ba
 if device == "cpu":
     description += " Note: Running on CPU, which may be slow for large models."
 
-# Create the Gradio interface
-image_description_interface = gr.Interface(
-    fn=describe_image,
-    inputs=[
-        gr.Image(label="Upload Image", type="pil"),
-        gr.Radio(["Base", "Large"], label="Model Choice", value="Base")
-    ],
-    outputs=gr.Textbox(label="Generated Caption", lines=4, show_copy_button=True),
-    live=False,
-    title="Florence-2 Models Image Captions",
-    description=description
-)
+# Define examples
+examples = [
+    ["images/1.png", "Florence-2-base"],
+    ["images/1.png", "Florence-2-large"],
+    ["images/2.png", "Florence-2-base"],
+    ["images/2.png", "Florence-2-large"]
+]
+
+css = """
+.submit-btn {
+    background-color: #4682B4 !important;
+    color: white !important;
+}
+.submit-btn:hover {
+    background-color: #87CEEB !important;
+}
+"""
+
+# Create the Gradio interface with Blocks
+with gr.Blocks(theme="bethecloud/storj_theme", css=css) as demo:
+    gr.Markdown("# **[Florence-2 Models Image Captions](https://huggingface.co/collections/prithivMLmods/multimodal-implementations-67c9982ea04b39f0608badb0)**")
+    gr.Markdown(description)
+    with gr.Row():
+        # Left column: Input image and Generate button
+        with gr.Column():
+            image_input = gr.Image(label="Upload Image", type="pil")
+            generate_btn = gr.Button("Generate Caption", elem_classes="submit-btn")
+            gr.Examples(examples=examples, inputs=[image_input])
+        # Right column: Model choice, output, and examples
+        with gr.Column():
+            model_choice = gr.Radio(["Florence-2-base", "Florence-2-large"], label="Model Choice", value="Florence-2-base")
+            with gr.Row():
+                output = gr.Textbox(label="Generated Caption", lines=4, show_copy_button=True)
+    # Connect the button to the function
+    generate_btn.click(fn=describe_image, inputs=[image_input, model_choice], outputs=output)
 
 # Launch the interface
-image_description_interface.launch(debug=True, ssr_mode=False)
+demo.launch(debug=True)
